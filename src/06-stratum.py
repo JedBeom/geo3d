@@ -41,7 +41,6 @@ ax.set_zlim([0, 500])
 
 XYZs = []
 
-'''
 # draw contours
 for v in values:
     Y = np.linspace(0, 1036, 1000)
@@ -51,7 +50,6 @@ for v in values:
     XYZs.append((X, Y, Z))
 
 fill_gap(ax, "brown", XYZs)
-'''
 
 XYZs = []
 
@@ -67,7 +65,7 @@ for same_altitudes in strike_points:
 
 fill_gap(ax, "blue", XYZs)
 
-ax.view_init(elev=30., azim=90)
-plt.savefig("../images/3d_g2_w_stratum_4.png", bbox_inches="tight")
+ax.view_init(elev=0., azim=90)
+# plt.savefig("../images/3d_g2_w_stratum_4.png", bbox_inches="tight")
 print("\ndone")
 plt.show()
