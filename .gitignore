@@ -4,3 +4,4 @@ venv/
 outputs/
 .idea/
 *.psd
+gh-md-toc
