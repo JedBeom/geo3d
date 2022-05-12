@@ -1,7 +1,7 @@
 # 지질도의 3차원 분석
 
 <details>
-<summary>일러두기</summary>
+<summary>(펼치기) 일러두기</summary>
 본 문서의 파이썬 코드에는 이하의 구문이 생략되어 있습니다.
 
 ```python
@@ -20,6 +20,8 @@ plt.savefig("filename.png")
 ```
 
 이 외에도, 전에 등장했던 변수(`contour_values`, `strike_points`, etc.) 또는 함수(`parabola`, `fill_gaps`, etc.)는 이해를 해치지 않는 선에서 생략하였습니다.
+
+자세한 코드는 `src/` 디렉터리를 참고하세요.
 </details>
 
 ## Ⅰ. 동기
@@ -55,7 +57,7 @@ CV에서 선을 인식하려면, 먼저 이미지의 가장자리를 검출한 �
 미분 방식에는 여러 종류가 있는데, 이 중 가장 성능이 좋은 canny 연산을 사용한다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 import cv2
@@ -106,7 +108,7 @@ g2 이미지 위에 곡선을 그려보며 식을 유추한다.
 왼쪽 사진은 plt로 g2를 좌표평면 위에 띄운 것이고, 오른쪽의 코드로 g2 위에 포물선 세 개를 그린 모습이 가운데 사진이다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 fig, ax = plt.subplots()
@@ -173,7 +175,7 @@ z는 등고선의 고도로, 후에 삼차원 이미지를 위해 같이 작성�
 g2를 좌표공간의 xy평면 위에 겹쳐본다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 fig, ax = plt.subplots(subplot_kw={"projection": "3d"})
@@ -195,7 +197,7 @@ ax.plot_surface(X, Y, Z, rstride=5, cstride=5, facecolors=img)
 위에 등고선을 그린다. 전과는 다르게 높이가 존재하는 삼차원 공간이다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 # 이전 코드에서 이어짐
@@ -228,7 +230,7 @@ for v in contour_values:
 직접 구현해보면 아래와 같다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 # 이전 이전 코드에서 이어짐
@@ -267,7 +269,7 @@ plt의 한계인지 구현 방식이 매끄럽지 않아서 그런지 바라보�
 지질 경계면을 그리기 위해서는 먼저 주향을 표시한다. 위에서 구한 `strike_points`를 같은 고도의 점끼리 이으면 주향이 된다.
 
 <details>
-<summary>코드 보기</summary>
+<summary>(펼치기) 코드 보기</summary>
 
 ```python
 # 이전 코드에서 이어짐
@@ -387,7 +389,7 @@ y = tan(90+a)(x - 518) + 518
 식을 알았으니 이제 문제는, 어떻게 '하반'들을 제거할 것인가. 이 문제는 numpy로 쉽게 해결할 수 있다.
 
 <details>
-<summary>numpy의 마스킹에 대하여</summary>
+<summary>(펼치기) numpy의 마스킹에 대하여</summary>
 
 numpy는 배열 마스킹을 지원한다. 예시로 알아보자.
 
@@ -444,11 +446,12 @@ def maskXYZbyAngle(X, Y, Z):
 왼쪽 위에서부터 30도, 45도, 90도, 100도, 200도, 300도다.
 gif로 돌려볼까? 
 
-**이미지 렌더링이 오래 걸려서 후에 추가하겠습니다**
+<img src="images/cut_merged.gif" width="500"/>
 
 위의 이미지들과는 다르게 한 프레임당 각도만 돌리는 게 아니라 단면을 위해 그림도 다시 그리기 때문에 렌더링 속도가 절망적으로 느려서 
 (한 프레임 당 약 10초, 360프레임 = 3600초 = 60분= 1시간...)
 멀티 프로세싱을 지원하는 파이썬의 `multiprocessing` 라이브러리로 분산 연산을 한다.
+그렇게 20개의 gif 파일을 만든 다음, 하나로 합친다.
 
 ## Ⅲ. 느낀 점
 

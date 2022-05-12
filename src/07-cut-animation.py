@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib import animation
 import numpy as np
 from multiprocessing import Process
+from datetime import datetime
 
 contour_values = [
     # (p, x_start, height)
@@ -75,7 +76,8 @@ ax.set_zlim([0, Z_MAX])
 
 
 def animate(angle):
-    print(f"ANIMATE [{angle}]")
+    time = datetime.now().strftime("%H:%M:%S")
+    print(f"{time} ANIMATE [{angle}]")
     ax.view_init(elev=0, azim=angle)
 
     XYZs = []
@@ -117,13 +119,22 @@ def anim_and_save(frame_from, frame_to):
     anim.save(f'../images/cut_from_{frame_from}.gif', fps=20)
     print(f"!!!ANIM {frame_from} - {frame_to} SAVE COMPLETE")
 
+# 작성 당시 360을 90개씩 나누어서 진행.
+start = 270
+end = 360
+thread_num = 5
 
 if __name__ == "__main__":
     processes = []
-    step = 360 // 10
-    for k in range(0, 360 - step + 1, step):
+
+    if (end-start) % thread_num != 0:
+        raise ValueError(f"thread_num {thread_num}은(는) end {end}의 약수가 아닙니다.")
+
+    step = (end-start) // thread_num
+    for k in range(start, end - step + 1, step):
         process = Process(target=anim_and_save, args=(k, k + step))
         processes.append(process)
 
     for process in processes:
         process.start()
+
